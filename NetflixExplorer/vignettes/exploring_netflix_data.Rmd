@@ -1,0 +1,18 @@
+---
+title: "Exploring Netflix Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Exploring Netflix Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+This vignette demonstrates how to use the `netflixExplorer` package and launch the Shiny app.
+
+```{r}
+library(netflixExplorer)
+
+# Launch Shiny app
+run_app()

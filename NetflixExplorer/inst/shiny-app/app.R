@@ -1,21 +1,18 @@
-library(shiny)
-library(dplyr)
 library(ggplot2)
+library(dplyr)
+library(netflixExplorer)
+library(shiny)
 
-# Load the dataset from the package
-data("netflix_clean", package = "netflixExplorer")
-
+# UI
 ui <- fluidPage(
-
   titlePanel("Netflix Explorer App"),
-
   sidebarLayout(
-
     sidebarPanel(
-      selectInput("type", "Select Content Type:",
-                  choices = c("All", unique(netflix_clean$type)))
+      selectInput(
+        "type", "Select Content Type:",
+        choices = c("All", unique(netflix_clean$type))
+      )
     ),
-
     mainPanel(
       plotOutput("yearPlot"),
       tableOutput("table")
@@ -23,19 +20,24 @@ ui <- fluidPage(
   )
 )
 
+# Server
 server <- function(input, output) {
 
+  data("netflix_clean", package = "netflixExplorer")
+
   filtered_data <- reactive({
+    req(input$type)
     if (input$type == "All") return(netflix_clean)
     netflix_clean %>% filter(type == input$type)
   })
 
   output$yearPlot <- renderPlot({
-    filtered_data() %>%
-      ggplot(aes(x = release_year)) +
+    ggplot(filtered_data(), aes(x = as.factor(release_year))) +
       geom_bar(fill = "skyblue") +
-      labs(title = paste("Count by Year:", input$type),
-           x = "Year", y = "Count") +
+      labs(
+        title = paste("Count by Year:", input$type),
+        x = "Year", y = "Count"
+      ) +
       theme_minimal()
   })
 
@@ -44,4 +46,5 @@ server <- function(input, output) {
   })
 }
 
+# Run the app
 shinyApp(ui, server)
