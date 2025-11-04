@@ -1,5 +1,4 @@
 name: pkgdown
-
 on:
   push:
     branches: [main]
@@ -9,7 +8,8 @@ on:
     types: [published]
   workflow_dispatch:
 
-permissions: read-all
+permissions:
+  contents: write  # Changed from read-all
 
 jobs:
   pkgdown:
@@ -19,6 +19,15 @@ jobs:
       
     steps:
       - uses: actions/checkout@v3
+      
+      # Add this step to verify the structure
+      - name: Check repository structure
+        run: |
+          ls -la
+          if [ ! -f "DESCRIPTION" ]; then
+            echo "Error: DESCRIPTION file not found in repository root"
+            exit 1
+          fi
       
       - uses: r-lib/actions/setup-pandoc@v2
       
@@ -30,23 +39,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
-
+          
       - name: Install R packages
         run: |
           install.packages(c('remotes', 'pkgdown'), dependencies = TRUE)
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_local()
         shell: Rscript {0}
       
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
-
+        
       - name: Deploy to GitHub Pages
+        if: github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
-          publish_branch: gh-pages
-          keep_files: true
-          force_orphan: true
