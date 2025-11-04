@@ -72,7 +72,7 @@ This package includes data derived from:
 
 For detailed documentation, tutorials, and function references, visit the package website:
 
-**[https://etc5523-2025.github.io/assignment-4-packages-Sravan9991/](https://etc5523-2025.github.io/assignment-4-packages-Sravan9991/)**
+**[https://etc5523-2025.github.io/assignment-4-packages-sravan9991/](https://etc5523-2025.github.io/assignment-4-packages-sravan9991/)**
 
 ## Main Components
 
