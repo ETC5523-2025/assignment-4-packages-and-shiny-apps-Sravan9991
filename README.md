@@ -1,7 +1,7 @@
 # bushfireRisk <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/workflows/R-CMD-check/badge.svg)](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/actions)
+[![R-CMD-check](https://github.com/ETC5523-2025/assignment-4-packages-sravan9991/workflows/R-CMD-check/badge.svg)](https://github.com/ETC5523-2025/assignment-4-packages-sravan9991/actions)
 <!-- badges: end -->
 
 ## Overview
@@ -21,7 +21,7 @@ You can install the development version of bushfireRisk from GitHub:
 
 ```r
 # install.packages("remotes")
-remotes::install_github("ETC5523-2025/assignment-4-packages-Sravan9991")
+remotes::install_github("ETC5523-2025/assignment-4-packages-sravan9991")
 ```
 
 ## Quick Start
@@ -119,7 +119,7 @@ If you use this package in your research, please cite:
 ```
 Kapu Bejjala, S.K. (2025). bushfireRisk: Australian Bushfire Risk Analysis 
 and Visualization. R package version 0.1.0.
-https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991
+https://github.com/ETC5523-2025/assignment-4-packages-sravan9991
 ```
 
 And the underlying research:
@@ -132,9 +132,9 @@ Environmental Research Letters.
 
 ## Getting Help
 
-- **Bug reports**: [GitHub Issues](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/issues)
+- **Bug reports**: [GitHub Issues](https://github.com/ETC5523-2025/assignment-4-packages-sravan9991/issues)
 - **Questions**: Open a discussion on GitHub
-- **Documentation**: Visit the [package website](https://etc5523-2025.github.io/assignment-4-packages-Sravan9991/)
+- **Documentation**: Visit the [package website](https://etc5523-2025.github.io/assignment-4-packages-sravan9991/)
 
 ## Related Work
 
