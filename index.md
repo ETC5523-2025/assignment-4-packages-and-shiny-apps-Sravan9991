@@ -1,9 +1,6 @@
 # bushfireRisk <img src="reference/figures/logo.png" align="right" height="139" alt="" />
 
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/workflows/R-CMD-check/badge.svg)](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-<!-- badges: end -->
+
 
 ## Attribution of Australian Bushfire Risk to Climate Change
 
