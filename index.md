@@ -224,6 +224,5 @@ MIT © Sravan Kumar Kapu Bejjala
 
 <div align="center">
 
-**Built with ❤️ for better understanding of climate impacts on Australian bushfires**
 
 </div>
