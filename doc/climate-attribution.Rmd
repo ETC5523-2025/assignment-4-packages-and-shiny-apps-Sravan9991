@@ -1,0 +1,382 @@
+---
+title: "Understanding Climate Attribution Science"
+author: "Sravan Kumar Kapu Bejjala"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Understanding Climate Attribution Science}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+## What is Climate Attribution Science?
+
+Climate attribution science answers the question: **"How much has human activity changed the likelihood or intensity of a specific weather event or trend?"**
+
+For bushfires, attribution studies compare:
+
+1. **The real world**: What actually happened (with human-caused greenhouse gas emissions)
+2. **A counterfactual world**: What would have happened with only natural climate drivers (volcanoes, solar cycles, natural ocean patterns)
+
+The difference between these scenarios reveals the human "fingerprint" on fire risk.
+
+## The Oldenborgh et al. (2021) Study
+
+### Research Question
+
+Did human-caused climate change increase the risk of extreme bushfire weather in Australia, particularly during the devastating 2019-2020 "Black Summer"?
+
+### Methodology
+
+The researchers used two complementary approaches:
+
+#### 1. Observational Analysis
+
+- Historical weather records from the Australian Bureau of Meteorology
+- Analyzed trends in the Forest Fire Danger Index (FFDI) from 1950-2020
+- Statistical methods to detect trends beyond natural variability
+
+#### 2. Climate Model Simulations
+
+- Multiple climate models simulating:
+  - **"Factual" world**: Including all forcings (natural + human greenhouse gases)
+  - **"Counterfactual" world**: Natural forcings only
+- Comparison reveals the contribution of human activity
+
+```{r eval=FALSE}
+library(bushfireRisk)
+library(ggplot2)
+library(dplyr)
+
+# Load attribution data
+data("climate_attribution")
+
+# Visualize the scenarios
+ggplot(climate_attribution, 
+       aes(x = year, y = ffdi_mean, color = scenario)) +
+  geom_line(linewidth = 1.2) +
+  geom_ribbon(aes(ymin = ffdi_mean - 1, ymax = ffdi_mean + 1, 
+                  fill = scenario),
+              alpha = 0.2, color = NA) +
+  scale_color_manual(
+    values = c("Natural Climate" = "#2c7bb6", 
+               "Anthropogenic Climate" = "#d7191c")
+  ) +
+  scale_fill_manual(
+    values = c("Natural Climate" = "#2c7bb6", 
+               "Anthropogenic Climate" = "#d7191c")
+  ) +
+  labs(
+    title = "Natural vs Anthropogenic Climate Influence on Fire Risk",
+    subtitle = "The gap shows human-caused increase in fire danger",
+    x = "Year",
+    y = "Forest Fire Danger Index",
+    color = "Climate Scenario",
+    fill = "Climate Scenario"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+## Key Findings
+
+### 1. Fire-Prone Weather Is More Common
+
+```{r eval=FALSE}
+# Calculate the increase in fire danger from 1950 to 2020
+calculate_risk_change(
+  bushfire_data,
+  region = "Southeast Australia",
+  start_year = 1950,
+  end_year = 2020,
+  metric = "ffdi_mean"
+)
+```
+
+Southeast Australia has seen approximately a **40% increase** in mean FFDI since 1950.
+
+### 2. Strong Attribution to Human Activity
+
+The study found:
+
+- **95% confidence** that trends in Southeast Australia exceed natural variability
+- Human-caused climate change has made extreme fire weather **at least 30% more likely**
+- The effect is strongest in southeast regions
+
+```{r eval=FALSE}
+# View attribution confidence by region
+data("regional_summary")
+
+regional_summary %>%
+  select(region, attribution_confidence) %>%
+  arrange(desc(attribution_confidence))
+```
+
+### 3. Regional Differences
+
+```{r eval=FALSE}
+# Compare fire danger trends across regions
+bushfire_data %>%
+  group_by(region, decade = floor(year/10)*10) %>%
+  summarise(mean_ffdi = mean(ffdi_mean), .groups = "drop") %>%
+  ggplot(aes(x = decade, y = mean_ffdi, color = region)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  labs(
+    title = "Fire Danger by Region and Decade",
+    x = "Decade",
+    y = "Mean FFDI",
+    color = "Region"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+Key observations:
+
+- **Southeast Australia**: Strongest increase (+95% confidence)
+- **Eastern Australia**: Clear upward trend (+90% confidence)
+- **Southern Australia**: Significant increase (+88% confidence)
+- **Northern and Western Australia**: Moderate increases
+
+## Understanding the Forest Fire Danger Index (FFDI)
+
+The FFDI combines multiple weather factors:
+
+$$
+FFDI = f(Temperature, Humidity, Wind, Drought)
+$$
+
+### FFDI Scale
+
+| FFDI Range | Fire Danger Level | Implications |
+|------------|-------------------|--------------|
+| 0-11       | Low-Moderate     | Fires easily controlled |
+| 12-24      | High             | Fires can be serious |
+| 25-49      | Very High        | Fires will be difficult to control |
+| 50-74      | Severe           | Fires will spread rapidly, spot over long distances |
+| 75-99      | Extreme          | Extremely dangerous, worst conditions possible |
+| 100+       | Catastrophic     | If fires start, uncontrollable and fast-moving |
+
+### How Climate Change Affects FFDI
+
+Climate change increases FFDI through:
+
+1. **Higher temperatures**: Directly increases fire danger and evapotranspiration
+2. **Lower humidity**: Drier vegetation burns more easily
+3. **Changed rainfall patterns**: Longer droughts, drier fuel loads
+4. **Stronger winds**: In some regions, wind patterns intensify
+
+```{r eval=FALSE}
+# Examine extreme fire days over time
+bushfire_data %>%
+  filter(region == "Southeast Australia") %>%
+  ggplot(aes(x = year, y = extreme_days)) +
+  geom_point(alpha = 0.6, color = "#e74c3c") +
+  geom_smooth(method = "lm", se = TRUE, color = "#2c3e50") +
+  labs(
+    title = "Extreme Fire Days in Southeast Australia",
+    subtitle = "Days with FFDI > 50 per year",
+    x = "Year",
+    y = "Number of Extreme Fire Days"
+  ) +
+  theme_minimal()
+```
+
+## Statistical Methods
+
+### Trend Detection
+
+The study used linear regression to detect trends:
+
+```{r eval=FALSE}
+# Example: Calculate trend for Southeast Australia
+southeast_data <- bushfire_data %>%
+  filter(region == "Southeast Australia")
+
+model <- lm(ffdi_mean ~ year, data = southeast_data)
+summary(model)
+
+# Extract trend
+trend_per_year <- coef(model)[2]
+trend_per_decade <- trend_per_year * 10
+
+cat("Fire danger is increasing by", round(trend_per_decade, 2), 
+    "FFDI points per decade")
+```
+
+### Attribution Fraction
+
+The attribution fraction (AF) measures how much human activity increased the likelihood of an event:
+
+$$
+AF = 1 - \frac{P_{natural}}{P_{observed}}
+$$
+
+Where:
+- $P_{observed}$ = Probability in the real world (with human influence)
+- $P_{natural}$ = Probability in natural climate only
+
+An AF of 0.30 means human activity made the event 30% more likely.
+
+## Future Projections
+
+### Without Emissions Reduction
+
+If greenhouse gas emissions continue at current rates:
+
+- FFDI will continue rising
+- Extreme fire days will become more common
+- "Black Summer" conditions could occur every few years
+- Recovery periods between fires will shorten
+
+```{r eval=FALSE}
+# Project future trends (illustrative)
+southeast_data <- bushfire_data %>%
+  filter(region == "Southeast Australia")
+
+model <- lm(ffdi_mean ~ year, data = southeast_data)
+
+future_years <- data.frame(year = 2021:2050)
+future_years$predicted_ffdi <- predict(model, newdata = future_years)
+
+# Combine historical and projected
+combined <- bind_rows(
+  southeast_data %>% select(year, ffdi_mean) %>% mutate(type = "Historical"),
+  future_years %>% rename(ffdi_mean = predicted_ffdi) %>% mutate(type = "Projected")
+)
+
+ggplot(combined, aes(x = year, y = ffdi_mean, color = type)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = 2020, linetype = "dashed", color = "gray50") +
+  scale_color_manual(values = c("Historical" = "#2c3e50", 
+                                "Projected" = "#e74c3c")) +
+  labs(
+    title = "Projected Fire Danger in Southeast Australia",
+    subtitle = "If current warming trends continue",
+    x = "Year",
+    y = "Mean FFDI",
+    color = NULL
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+### With Emissions Reduction
+
+Rapid emissions reduction could:
+
+- Slow the rate of FFDI increase
+- Reduce the frequency of extreme fire days
+- Provide longer recovery periods between major fires
+- Prevent reaching "catastrophic" thresholds
+
+## Limitations and Uncertainties
+
+### Model Limitations
+
+- Climate models have finite resolution
+- Some local processes (e.g., lightning strikes) are hard to model
+- Future emissions pathways are uncertain
+
+### Data Limitations
+
+- Historical records may have gaps or biases
+- FFDI doesn't capture all fire risk factors (e.g., fuel management, ignition sources)
+
+### Natural Variability
+
+- El Niño/La Niña cycles affect year-to-year fire risk
+- Volcanic eruptions can temporarily cool climate
+- These are accounted for in attribution analysis
+
+## Implications for Policy
+
+### Adaptation
+
+Communities need to prepare for increased fire risk:
+
+1. **Infrastructure**: Fire-resistant building codes
+2. **Planning**: Land-use restrictions in high-risk areas
+3. **Emergency services**: Enhanced firefighting capacity
+4. **Early warning systems**: Better weather forecasting
+
+### Mitigation
+
+Reducing greenhouse gas emissions is essential:
+
+1. **Energy transition**: Shift to renewable energy
+2. **Carbon capture**: Remove CO₂ from atmosphere
+3. **Land management**: Protect and restore carbon sinks
+4. **International cooperation**: Global emissions reduction
+
+## Using the Package for Attribution Analysis
+
+### Compare Natural vs Anthropogenic Scenarios
+
+```{r eval=FALSE}
+# Calculate the difference in 2020
+attribution_2020 <- climate_attribution %>%
+  filter(year == 2020) %>%
+  select(scenario, ffdi_mean) %>%
+  pivot_wider(names_from = scenario, values_from = ffdi_mean) %>%
+  mutate(
+    human_contribution = `Anthropogenic Climate` - `Natural Climate`,
+    percent_increase = (human_contribution / `Natural Climate`) * 100
+  )
+
+attribution_2020
+```
+
+### Visualize Attribution Over Time
+
+```{r eval=FALSE}
+# Calculate the attribution gap for each year
+attribution_gap <- climate_attribution %>%
+  select(year, scenario, ffdi_mean) %>%
+  pivot_wider(names_from = scenario, values_from = ffdi_mean) %>%
+  mutate(human_contribution = `Anthropogenic Climate` - `Natural Climate`)
+
+ggplot(attribution_gap, aes(x = year, y = human_contribution)) +
+  geom_area(fill = "#e74c3c", alpha = 0.7) +
+  geom_line(color = "#c0392b", linewidth = 1) +
+  labs(
+    title = "Human Contribution to Fire Danger Over Time",
+    subtitle = "The growing gap between natural and observed climate",
+    x = "Year",
+    y = "Additional FFDI from Human Activity"
+  ) +
+  theme_minimal()
+```
+
+## Conclusion
+
+Climate attribution science provides clear evidence that:
+
+1. Human-caused climate change has already increased Australian bushfire risk
+2. The effect is strongest in Southeast Australia
+3. Without action, fire risk will continue to worsen
+4. Both adaptation and mitigation are urgently needed
+
+The `bushfireRisk` package makes these findings accessible and actionable for researchers, policymakers, and educators.
+
+## References
+
+- Oldenborgh, G.J., et al. (2021). Attribution of the Australian bushfire risk to anthropogenic climate change. *Environmental Research Letters*.
+- Australian Bureau of Meteorology. Forest Fire Danger Index documentation.
+- IPCC (2021). Climate Change 2021: The Physical Science Basis.
+
+## Further Reading
+
+- Introduction vignette: `vignette("introduction", package = "bushfireRisk")`
+- App guide: `vignette("using-the-app", package = "bushfireRisk")`
+- Function documentation: `?calculate_risk_change`, `?plot_ffdi_trend`
