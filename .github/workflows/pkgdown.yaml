@@ -1,49 +1,103 @@
-on:
-  push:
-    branches: [main, master]
-  workflow_dispatch:
+# pkgdown configuration file for NetflixExplorer package
+# Created with updates for proper pkgdown site building
 
-name: pkgdown
+# Home page configuration
+home:
+  title: "NetflixExplorer: Analytics Dashboard for Netflix Viewing Data"
+  description: >
+    NetflixExplorer is an R package that provides an interactive analytics dashboard
+    for exploring and visualizing Netflix viewing history data. The package includes
+    functions for data cleaning, statistical analysis, and data visualization to help
+    users understand their Netflix viewing patterns and trends.
+  links:
+    - text: "GitHub Repository"
+      href: "https://github.com/ETC5523-2024/assignment-4-packages-and-shiny-apps-Sravan9991"
+      icon: "fab fa-github"
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+# Template configuration
+template:
+  bootstrap: 5
+  bootswatch: cosmo
 
-jobs:
-  pkgdown:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
+# Code configuration
+code:
+  width: 100
+  color: false
 
-      - uses: r-lib/actions/setup-pandoc@v2
+# Development mode configuration
+development:
+  mode: auto
+  version_label: default
+  version_tooltip: "Development version of the package"
 
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          use-public-rspm: true
+# Navigation structure
+navbar:
+  type: default
+  left:
+    - home
+    - reference
+    - news
+    - articles
+  right:
+    - search
+    - github
+    - lightswitch
+  components:
+    home:
+      icon: "fas fa-home"
+      href: index.html
+      aria-label: "Home"
+    reference:
+      text: "Reference"
+      href: reference/index.html
+      aria-label: "Functions and variables"
+    news:
+      text: "News"
+      href: news/index.html
+      aria-label: "Changelog"
+    github:
+      icon: "fab fa-github"
+      href: "https://github.com/ETC5523-2024/assignment-4-packages-and-shiny-apps-Sravan9991"
+      aria-label: "GitHub repository"
+    lightswitch:
+      text: "Switch theme"
+      menu:
+        - text: "Preferred"
+          value: "light-dark"
+        - text: "Light"
+          value: "light"
+        - text: "Dark"
+          value: "dark"
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::pkgdown, any::devtools
-          needs: website
-          working-directory: NetflixExplorer
+# Site metadata
+url: "https://etc5523-2024.github.io/assignment-4-packages-and-shiny-apps-Sravan9991/NetflixExplorer"
 
-      - name: Install package
-        run: |
-          remotes::install_local("NetflixExplorer", upgrade = "never", force = TRUE)
-        shell: Rscript {0}
+# Footer configuration
+footer:
+  structure:
+    left: [author, license]
+    right: [github]
+  components:
+    author: "Created by [Sravan9991]"
+    license: "MIT License"
 
-      - name: Build site
-        run: |
-          setwd("NetflixExplorer")
-          pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
-        shell: Rscript {0}
+# Side bar and reference configuration
+reference:
+  - title: "Main Functions"
+    contents:
+      - has_concept("core_functions")
+  - title: "Data Processing"
+    contents:
+      - has_concept("data_processing")
+  - title: "Visualization"
+    contents:
+      - has_concept("visualization")
+  - title: "Analytics"
+    contents:
+      - has_concept("analytics")
 
-      - name: Deploy to GitHub pages
-        uses: JamesIves/github-pages-deploy-action@v4.5.0
-        with:
-          clean: false
-          branch: gh-pages
-          folder: NetflixExplorer/docs
+# Author configuration
+authors:
+  Sravan9991:
+    href: "https://etc5523-2024.github.io/assignment-4-packages-and-shiny-apps-Sravan9991"
+    html: "<span id='a1hzHh6kE6OMd9KvK7AkE6OMd9KvK7AkEmInA'>Contact</span>"
