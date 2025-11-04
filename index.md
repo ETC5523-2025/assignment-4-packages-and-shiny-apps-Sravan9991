@@ -11,33 +11,33 @@ The **bushfireRisk** package provides comprehensive tools for analyzing how huma
 
 ---
 
-## 🔥 Key Features
+## Key Features
 
-### 📊 Rich Datasets
+### Rich Datasets
 - **bushfire_data**: 71 years (1950-2020) of regional fire danger metrics
 - **climate_attribution**: Natural vs anthropogenic climate scenarios  
 - **regional_summary**: Statistical summaries by region
 
-### 🛠️ Analysis Tools
+### Analysis Tools
 - Calculate percentage changes in fire risk over time
 - Visualize Fire Danger Index trends with publication-ready plots
 - Compare regional patterns and attribution confidence
 - Interactive data exploration and export
 
-### 📱 Interactive Dashboard
+### Interactive Dashboard
 - Explore data through an intuitive Shiny interface
 - Filter by region, time period, and metrics
 - Visualize trends and attribution in real-time
 - Export data and insights
 
-### 📚 Comprehensive Documentation
+### Comprehensive Documentation
 - Detailed vignettes on climate attribution science
 - Step-by-step tutorials and examples
 - Complete function references
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -88,16 +88,16 @@ compare_regions(bushfire_data, year_range = c(2000, 2020))
 
 ---
 
-## 📈 What the Data Shows
+## What the Data Shows
 
 Based on rigorous attribution analysis, this package demonstrates:
 
-### 🌡️ Clear Human Fingerprint
+### Clear Human Fingerprint
 - **Southeast Australia** shows **42% increase** in fire danger since 1950
 - **95% confidence** that trends exceed natural climate variability
 - Human emissions have made extreme fire weather **30% more likely**
 
-### 📍 Regional Patterns
+### Regional Patterns
 | Region | FFDI Increase | Attribution Confidence |
 |--------|---------------|------------------------|
 | Southeast Australia | +42% | 95% |
@@ -106,7 +106,7 @@ Based on rigorous attribution analysis, this package demonstrates:
 | Western Australia | +28% | 85% |
 | Northern Australia | +15% | 75% |
 
-### ⚠️ Future Outlook
+### Future Outlook
 Without strong emissions reductions:
 - Extreme fire days will become more frequent
 - "Black Summer" conditions could occur every few years  
@@ -114,7 +114,7 @@ Without strong emissions reductions:
 
 ---
 
-## 🎯 Use Cases
+## Use Cases
 
 ### For Researchers
 - Reproduce and extend climate attribution analyses
@@ -138,7 +138,7 @@ Without strong emissions reductions:
 
 ---
 
-## 📖 Learning Resources
+## Learning Resources
 
 ### Vignettes
 
@@ -167,7 +167,7 @@ vignette("climate-attribution", package = "bushfireRisk")
 
 ---
 
-## 🔬 Scientific Foundation
+## Scientific Foundation
 
 This package is built on:
 
@@ -181,23 +181,23 @@ The study used:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our:
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
-- [GitHub Issues](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/issues)
+- [GitHub Issues](https://github.com/ETC5523-2025/assignment-4-packages-sravan9991/issues)
 
 ---
 
-## 📜 Citation
+## Citation
 
 If you use this package in your research, please cite:
 
 ```
 Kapu Bejjala, S.K. (2025). bushfireRisk: Australian Bushfire Risk Analysis 
 and Visualization. R package version 0.1.0.
-https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991
+https://github.com/ETC5523-2025/assignment-4-packages-sravan9991
 ```
 
 And the underlying research:
@@ -210,17 +210,17 @@ Environmental Research Letters.
 
 ---
 
-## 📄 License
+## License
 
 MIT © Sravan Kumar Kapu Bejjala
 
 ---
 
-## 🔗 Links
+## Links
 
-- **Package Website**: [https://etc5523-2025.github.io/assignment-4-packages-Sravan9991/](https://etc5523-2025.github.io/assignment-4-packages-Sravan9991/)
-- **GitHub Repository**: [https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991)
-- **Bug Reports**: [GitHub Issues](https://github.com/ETC5523-2025/assignment-4-packages-Sravan9991/issues)
+- **Package Website**: [https://etc5523-2025.github.io/assignment-4-packages-sravan9991/](https://etc5523-2025.github.io/assignment-4-packages-sravan9991/)
+- **GitHub Repository**: [https://github.com/ETC5523-2025/assignment-4-packages-sravan9991](https://github.com/ETC5523-2025/assignment-4-packages-sravan9991)
+- **Bug Reports**: [GitHub Issues](https://github.com/ETC5523-2025/assignment-4-packages-sravan9991/issues)
 - **Monash University ETC5523**: Communicating with Data
 
 ---
